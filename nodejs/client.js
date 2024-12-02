@@ -15,7 +15,7 @@ const apiKey = `<USER_API_KEY>:${currentTimestamp}`;
 const encryptedData = crypto.publicEncrypt(
     {
         key: publicKey,
-        oaepHash: 'sha256'
+        oaepHash: 'sha512'
     },
     apiKey
 );
