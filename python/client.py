@@ -2,6 +2,7 @@ import base64
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+import time
 
 # Read the public key from file
 with open('public.pem', 'rb') as key_file:
@@ -12,14 +13,18 @@ with open('public.pem', 'rb') as key_file:
 
 # Set the API key
 # Example of api key 130WHXWE6M2S0JVFDCPXFR8Q4HYJ6T2XBNRX6MMMYJR3H20PY0M78V3
-api_key = b'<USER_API_KEY>'
+api_key = '<USER_API_KEY>'
+milliseconds = int(time.time() * 1000)
+
+api_key = api_key + ':' + str(milliseconds)
+
 
 # Encrypt the data
 encrypted_data = public_key.encrypt(
-    api_key,
+    api_key.encode('utf-8'),
     padding.OAEP(
-        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-        algorithm=hashes.SHA256(),
+        mgf=padding.MGF1(algorithm=hashes.SHA512()),
+        algorithm=hashes.SHA512(),
         label=None
     )
 )
